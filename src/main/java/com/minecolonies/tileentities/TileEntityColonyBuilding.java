@@ -24,12 +24,22 @@ public class TileEntityColonyBuilding extends TileEntityChest
     /**
      * NBTTag to store the colony id.
      */
-    private static final String TAG_COLONY = "colony";
+    private static final String TAG_COLONY  = "colony";
+
+    /**
+     * NBTTag to store the extra size.
+     */
+    private static final String TAG_EXTRA_SIZE = "extra size";
 
     /**
      * The colony id.
      */
     private int colonyId = 0;
+
+    /**
+     * Extra size to make the inventory bigger (each number adds one additional row).
+     */
+    private int extraSize = 0;
 
     /**
      * The colony.
@@ -86,6 +96,14 @@ public class TileEntityColonyBuilding extends TileEntityChest
               pos.getY(),
               pos.getZ()));
         }
+    }
+
+    @Override
+    public int getSizeInventory()
+    {
+        //todo store buildingLevel to nbt here (to avoid crash on load)
+
+        return extraSize*9 + 27;
     }
 
     @Override
@@ -148,6 +166,7 @@ public class TileEntityColonyBuilding extends TileEntityChest
             if (building != null && (worldObj == null || !worldObj.isRemote))
             {
                 building.setTileEntity(this);
+                extraSize = building.getBuildingLevel();
             }
         }
     }
@@ -196,7 +215,7 @@ public class TileEntityColonyBuilding extends TileEntityChest
         {
             colonyId = compound.getInteger(TAG_COLONY);
         }
-
+        extraSize = compound.getInteger(TAG_EXTRA_SIZE);
         updateColonyReferences();
     }
 
@@ -237,6 +256,8 @@ public class TileEntityColonyBuilding extends TileEntityChest
               colony == null ? "NO" : "valid"));
         }
         compound.setInteger(TAG_COLONY, colonyId);
+        compound.setInteger(TAG_EXTRA_SIZE, extraSize);
+
         return compound;
     }
 
