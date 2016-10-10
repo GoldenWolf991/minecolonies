@@ -103,7 +103,7 @@ public class TileEntityColonyBuilding extends TileEntityChest
     {
         //todo store buildingLevel to nbt here (to avoid crash on load)
 
-        return extraSize*9 + 27;
+        return 2*9 + 27;
     }
 
     @Override

@@ -37,7 +37,7 @@ import org.jetbrains.annotations.Nullable;
  * <p>
  * All AbstractBlockHut[something] should extend this class
  */
-public abstract class AbstractBlockHut extends Block implements ITileEntityProvider
+public abstract class AbstractBlockHut extends Block
 {
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
     private static final float             HARDNESS = 10F;
@@ -76,11 +76,16 @@ public abstract class AbstractBlockHut extends Block implements ITileEntityProvi
      */
     public abstract String getName();
 
-    @NotNull
     @Override
-    public TileEntity createNewTileEntity(World world, int meta)
+    public boolean hasTileEntity(final IBlockState p_hasTileEntity_1_)
     {
-        //Creates a tile entity for our building
+        return true;
+    }
+
+    @Override
+    @NotNull
+    public TileEntity createTileEntity(final World p_createTileEntity_1_, final IBlockState p_createTileEntity_2_)
+    {
         return new TileEntityColonyBuilding();
     }
 
